@@ -19,7 +19,7 @@ class ClassesSeeder extends Seeder
         Classes::factory()
             ->count(10)
             ->sequence(fn($sequence) => [
-                'name' => 'Class' . ($sequence->index + 1)
+                'name' => 'Class ' . ($sequence->index + 1)
             ])
             ->has(
                 Section::factory()

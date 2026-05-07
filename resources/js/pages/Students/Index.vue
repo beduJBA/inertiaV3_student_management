@@ -1,12 +1,14 @@
 <script setup lang="ts">
+    import type { PaginatedData } from "@/types/pagination";
+    import type { Student } from "@/types/student";
+    import Pagination from "@/components/Pagination.vue";
     import MagnifyingGlass from "@/components/ui/magnifyingGlass/MagnifyingGlass.vue";
 
-    defineProps({
-        students: {
-            type: Object,
-            required: true,
-        },
-    });
+    defineProps<{
+        students: PaginatedData<Student>;
+    }>();
+
+    
 </script>
 <template>
     <div class="bg-gray-100 py-10">
@@ -92,7 +94,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div>Pagination Links</div>
+                            <Pagination :data="students" />
                         </div>
                     </div>
                 </div>
