@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Api\StoreStudentRequest;
+use App\Http\Requests\Api\UpdateStudentRequest;
 use App\Http\Resources\ClassesResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Classes;
@@ -44,5 +45,21 @@ class StudentController extends Controller
             'student' => $student,
             'classes' => $classes,
         ]);
+    }
+
+    public function update(UpdateStudentRequest $request, Student $student)
+    {
+        $student->update($request->validated());
+        
+        return redirect()->route('students.index')
+            ->with('success', 'Student updated successfully');
+    }
+
+    public function destroy(Student $student)
+    {
+        $student->delete($student->id);
+        
+        return redirect()->route('students.index')
+            ->with('success', 'Student deleted successfully');
     }
 }

@@ -3,13 +3,20 @@
     import type { Student } from "@/types/student";
     import Pagination from "@/components/Pagination.vue";
     import MagnifyingGlass from "@/components/ui/magnifyingGlass/MagnifyingGlass.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, useForm } from "@inertiajs/vue3";
 import Heading from "@/components/Heading.vue";
 
     defineProps<{
         students: PaginatedData<Student>;
     }>();
 
+    const deleteForm = useForm({});
+
+    const deleteStudent = (id: number) => {
+        if (confirm('Are you sure you want to delete this student?')) {
+            deleteForm.delete(route('students.destroy', {id}));
+        }
+    }
 
 </script>
 <template>
@@ -79,10 +86,10 @@ import Heading from "@/components/Heading.vue";
                                                 {{ student.email }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {{ student.class.name }}
+                                                {{ student.class?.name }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {{ student.section.name }}
+                                                {{ student.section?.name }}
                                             </td>
                                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                 {{ student.created_at }}
@@ -92,7 +99,11 @@ import Heading from "@/components/Heading.vue";
                                                 <Link 
                                                 :href="route('students.edit', { id: student.id })" class="text-indigo-600 hover:text-indigo-900"> Edit 
                                                 </Link>
-                                                <button class="ml-2 text-indigo-600 hover:text-indigo-900">Delete</button>
+                                                <button 
+                                                @click="deleteStudent(student.id)"
+                                                class="ml-2 text-indigo-600 hover:text-indigo-900">
+                                                    Delete
+                                                </button>
                                             </td>
                                         </tr>
                                     </tbody>
